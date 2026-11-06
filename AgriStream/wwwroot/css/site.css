@@ -1,0 +1,64 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background: #f4f7f3;
+  color: #20392e;
+}
+
+h1, h2 { letter-spacing: -.035em; font-weight: 650; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); }
+h2 { font-size: 1.3rem; }
+a { color: #246445; }
+.hero { padding: 4rem 0 3rem; max-width: 850px; }
+.hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+.hero-copy { max-width: 650px; font-size: 1.15rem; line-height: 1.8; margin: 1.5rem 0; }
+.eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; font-weight: 700; color: #526c5a; }
+.page-heading { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 2rem 0; flex-wrap: wrap; }
+.metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.metric, .monitor-panel, .form-panel, .empty-state { border: 1px solid #dce5db; border-radius: 16px; background: white; padding: 1.5rem; }
+.metric span { display: block; font-size: .9rem; color: #526c5a; }
+.metric strong { display: block; font-size: 2.4rem; margin-top: .5rem; }
+.monitor-panel, .empty-state { margin-bottom: 1.5rem; }
+.monitor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.three-columns { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.record { border-top: 1px solid #edf0eb; padding: 1rem 0; overflow-wrap: anywhere; }
+.record strong, .record span { display: block; }
+.record p { margin: .5rem 0; }
+.advice { white-space: pre-wrap; }
+.status, .record small, .empty-copy { color: #526c5a; font-size: .9rem; }
+.empty-copy { padding-top: .75rem; }
+.form-panel { max-width: 650px; }
+.btn-primary { --bs-btn-bg: #246445; --bs-btn-border-color: #246445; --bs-btn-hover-bg: #174b32; --bs-btn-hover-border-color: #174b32; }
+.btn-outline-primary { --bs-btn-color: #246445; --bs-btn-border-color: #246445; --bs-btn-hover-bg: #246445; --bs-btn-hover-border-color: #246445; }
+@media (max-width: 767px) {
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .monitor-grid, .three-columns { grid-template-columns: minmax(0, 1fr); }
+  .hero { padding-top: 2rem; }
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}

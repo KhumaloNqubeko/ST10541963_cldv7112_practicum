@@ -1,0 +1,18 @@
+{
+  "version": "2.0",
+  "logging": {
+    "logLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Function.ProcessDroneImageUpload": "Information"
+    }
+  },
+  "extensions": {
+    "blobs": {
+      "maxDegreeOfParallelism": 4
+    },
+    "queues": {
+      "maxDequeueCount": 5
+    }
+  }
+}

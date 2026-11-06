@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Smart Agricultural Monitoring";
+}
+
+<section class="hero">
+    <p class="eyebrow">Smart Agricultural Monitoring System</p>
+    <h1>Understand your fields.<br />Make informed decisions.</h1>
+    <p class="hero-copy">A shared workspace for farmers and agronomists to monitor soil conditions, review drone observations and turn findings into practical advice.</p>
+    <a class="btn btn-primary btn-lg" asp-controller="Dashboard" asp-action="Index">Open monitoring dashboard</a>
+    <p class="mt-3 text-muted">Account access is managed by your administrator.</p>
+</section>
+<div class="monitor-grid three-columns">
+    <article class="monitor-panel"><p class="eyebrow">01 / Soil conditions</p><h2>Follow field readings</h2><p>Review soil moisture, temperature and humidity readings from your farm's sensors.</p></article>
+    <article class="monitor-panel"><p class="eyebrow">02 / Aerial observations</p><h2>Review crop health</h2><p>Track drone image processing and review available analysis results.</p></article>
+    <article class="monitor-panel"><p class="eyebrow">03 / Expert guidance</p><h2>Act on recommendations</h2><p>Connect farm observations with advice from an assigned agronomist.</p></article>
+</div>
+<section class="monitor-panel"><h2>A workspace for every role</h2><p><strong>Farmers</strong> see their farms and monitoring results. <strong>Agronomists</strong> review assigned farms and share recommendations. <strong>Admins</strong> manage accounts and farm access.</p></section>

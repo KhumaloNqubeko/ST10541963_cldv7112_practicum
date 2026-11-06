@@ -1,0 +1,11 @@
+@model CreateFarmViewModel
+@{ ViewData["Title"] = "Add farm"; }
+<h1>Add a farm</h1><p>Assign its owner and an agronomist who can review its data.</p>
+<form method="post" asp-action="Create" class="form-panel">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <label asp-for="Name"></label><input asp-for="Name" class="form-control mb-3" />
+    <label asp-for="Location"></label><input asp-for="Location" class="form-control mb-3" />
+    <label asp-for="FarmerId"></label><select asp-for="FarmerId" asp-items="Model.Farmers" class="form-select mb-3"><option value="">Select farmer</option></select>
+    <label asp-for="AgronomistId"></label><select asp-for="AgronomistId" asp-items="Model.Agronomists" class="form-select mb-3"><option value="">No agronomist assigned</option></select>
+    <button class="btn btn-primary">Create farm</button>
+</form>

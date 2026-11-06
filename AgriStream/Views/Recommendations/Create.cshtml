@@ -1,0 +1,12 @@
+@model RecommendationViewModel
+@{ ViewData["Title"] = "Share recommendation"; }
+<h1>Share a recommendation</h1><p>Provide practical advice for a farm assigned to you.</p>
+@if (Model.Farms.Count == 0) { <p class="alert alert-info">An administrator must assign you to a farm before you can share recommendations.</p> }
+else {
+<form method="post" asp-action="Create" class="form-panel">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <label asp-for="FarmId"></label><select asp-for="FarmId" asp-items="Model.Farms" class="form-select mb-3"></select>
+    <label asp-for="Advice"></label><textarea asp-for="Advice" class="form-control mb-3" rows="6"></textarea>
+    <button class="btn btn-primary">Share recommendation</button>
+</form>
+}

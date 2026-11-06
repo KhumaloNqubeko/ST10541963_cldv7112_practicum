@@ -1,0 +1,58 @@
+@model MonitoringDashboardViewModel
+@{ ViewData["Title"] = "Monitoring dashboard"; }
+<div class="page-heading"><div><p class="eyebrow">@Model.Audience workspace</p><h1>Farm monitoring</h1><p class="text-muted">Soil conditions, aerial observations and advice in one place.</p></div>
+<div class="d-flex gap-2 flex-wrap">
+@if (User.IsInRole("Admin")) {
+    <a class="btn btn-outline-primary" asp-controller="Admin" asp-action="CreateUser">Create account</a>
+    <a class="btn btn-primary" asp-controller="Farms" asp-action="Create">Add farm</a>
+}
+@if (User.IsInRole("Agronomist")) { <a class="btn btn-primary" asp-controller="Recommendations" asp-action="Create">Share recommendation</a> }
+</div></div>
+@if (TempData["Success"] is string message) { <p class="alert alert-success">@message</p> }
+<div class="metric-grid">
+    <div class="metric"><span>Accessible farms</span><strong>@Model.FarmCount</strong></div>
+    <div class="metric"><span>Active sensors</span><strong>@Model.SensorCount</strong></div>
+    <div class="metric"><span>Open alerts</span><strong>@Model.OpenAlertCount</strong></div>
+    <div class="metric"><span>Images awaiting results</span><strong>@Model.PendingImageCount</strong></div>
+</div>
+@if (Model.FarmCount == 0) { <div class="empty-state"><h2>Your workspace is ready</h2><p>No farms are available yet. An administrator can create a farm and assign its Farmer and Agronomist accounts.</p></div> }
+<section class="monitor-panel"><h2>Farms</h2><p class="text-muted">Up to 50 farms you have permission to access.</p>
+@foreach (var farm in Model.Farms) { <div class="record"><strong>@farm.Name</strong><span>@farm.Location</span></div> }
+</section>
+<section class="monitor-panel"><h2>Latest soil readings</h2>
+@if (Model.UsesFieldTelemetry) {
+    <p class="text-muted">Latest measurement per sensor for the selected field. Times are shown in UTC.</p>
+    @if (Model.TelemetryFields.Count > 0) {
+        <form asp-controller="Dashboard" asp-action="Field" method="get" class="d-flex gap-2 mb-3">
+            <label for="fieldId" class="visually-hidden">Field</label>
+            <select id="fieldId" name="fieldId" class="form-select" aria-label="Field">
+            @foreach (var field in Model.TelemetryFields) { <option value="@field" selected="@(field == Model.SelectedFieldId)">@field</option> }
+            </select><button class="btn btn-outline-primary">View field</button>
+        </form>
+    }
+    @if (Model.TelemetryMessage is not null) { <p class="empty-copy" role="status">@Model.TelemetryMessage</p> }
+    else if (Model.FieldTelemetry?.Readings.Count > 0) {
+        <div class="table-responsive"><table class="table"><thead><tr><th>Sensor</th><th>Moisture</th><th>Temperature</th><th>Humidity</th><th>Measured (UTC)</th></tr></thead><tbody>
+        @foreach (var reading in Model.FieldTelemetry.Readings) { <tr><td>@reading.SensorId</td><td>@reading.SoilMoisturePercent.ToString("0.##")%</td><td>@(reading.TemperatureCelsius?.ToString("0.##") ?? "—") °C</td><td>@(reading.HumidityPercent?.ToString("0.##") ?? "—")%</td><td>@reading.RecordedAt.UtcDateTime.ToString("dd MMM yyyy HH:mm")</td></tr> }
+        </tbody></table></div>
+    }
+    else { <p class="empty-copy">No measurements have been received for this field.</p> }
+} else {
+<p class="text-muted">The 20 most recent readings. Times are shown in UTC.</p>
+@if (Model.Readings.Count == 0) { <p class="empty-copy">No sensor readings have been received.</p> }
+else { <div class="table-responsive"><table class="table"><thead><tr><th>Farm / sensor</th><th>Moisture</th><th>Temperature</th><th>Humidity</th><th>Recorded (UTC)</th></tr></thead><tbody>
+@foreach (var r in Model.Readings) { <tr><td>@r.Sensor.Farm.Name / @r.Sensor.Name</td><td>@r.SoilMoisturePercent.ToString("0.##")%</td><td>@r.TemperatureCelsius.ToString("0.##") °C</td><td>@r.HumidityPercent.ToString("0.##")%</td><td>@r.RecordedAt.UtcDateTime.ToString("dd MMM yyyy HH:mm")</td></tr> }
+</tbody></table></div> }
+}
+</section>
+<div class="monitor-grid"><section class="monitor-panel"><h2>Open alerts</h2>
+@if (Model.Alerts.Count == 0) { <p class="empty-copy">No open alerts.</p> }
+@foreach (var a in Model.Alerts) { <article class="record"><span class="status">@a.Severity · @a.Farm.Name</span><p>@a.Message</p><small>@a.CreatedAt.UtcDateTime.ToString("dd MMM yyyy HH:mm") UTC</small></article> }
+</section><section class="monitor-panel"><h2>Agronomist recommendations</h2>
+@if (Model.Recommendations.Count == 0) { <p class="empty-copy">Recommendations will appear here when an assigned agronomist shares advice.</p> }
+@foreach (var r in Model.Recommendations) { <article class="record"><strong>@r.Farm.Name</strong><p class="advice">@r.Advice</p><small>@r.CreatedAt.UtcDateTime.ToString("dd MMM yyyy HH:mm") UTC</small></article> }
+</section></div>
+<section class="monitor-panel"><h2>Drone observations</h2><p class="text-muted">The 10 latest image records and processing results.</p>
+@if (Model.Images.Count == 0) { <p class="empty-copy">No drone image records have been received.</p> }
+@foreach (var image in Model.Images) { <article class="record"><strong>@image.Farm.Name</strong><span class="status">@image.Status · @image.CapturedAt.UtcDateTime.ToString("dd MMM yyyy HH:mm") UTC</span><p>@(image.AnalysisSummary ?? "Analysis results are not available yet.")</p></article> }
+</section>

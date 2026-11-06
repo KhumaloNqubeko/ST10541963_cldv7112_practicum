@@ -1,0 +1,9 @@
+**/bin/
+**/obj/
+.vs/
+.local/
+*.user
+*.suo
+**/appsettings.Local.json
+**/local.settings.json
+**/publish/
