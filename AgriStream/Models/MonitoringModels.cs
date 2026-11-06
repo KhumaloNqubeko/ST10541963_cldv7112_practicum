@@ -85,6 +85,8 @@ public class Recommendation
 public class MonitoringDashboardViewModel
 {
     public bool UsesFieldTelemetry { get; set; }
+    public bool IrrigationEnabled {get;set;}
+    public List<AgriStream.Services.IrrigationDeviceCard> IrrigationDevices {get;set;}=[];
     public List<string> TelemetryFields { get; set; } = [];
     public string? SelectedFieldId { get; set; }
     public string? TelemetryMessage { get; set; }

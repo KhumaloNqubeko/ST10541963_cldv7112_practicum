@@ -72,6 +72,7 @@ catch (RequestFailedException ex) when (ex.Status == 403) { propagated = true; }
 Assert(propagated && table.Rows.Count == before, "Metadata failures propagate without fake success");
 Console.WriteLine("All Function 1 checks passed (trigger metadata, upload details, persistence, duplicate/concurrent delivery, version changes, later-status protection, optional metadata, failure propagation and logging).");
 await TelemetryChecks.RunAsync();
+await IrrigationChecks.RunAsync();
 
 static BlobProperties Properties(string etag, DateTimeOffset created, DateTimeOffset modified, string? version = null, string? contentType = "image/jpeg") =>
     BlobsModelFactory.BlobProperties(createdOn: created, lastModified: modified, eTag: new ETag(etag), contentLength: 9876543210, contentType: contentType, versionId: version);

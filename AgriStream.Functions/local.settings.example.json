@@ -5,6 +5,9 @@
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "DroneStorageConnection": "UseDevelopmentStorage=true",
     "DroneAuditStorageConnection": "UseDevelopmentStorage=true",
-    "TelemetryAccess__SigningKey": ""
+    "TelemetryAccess__SigningKey": "",
+    "IrrigationQueueConnection": "UseDevelopmentStorage=true",
+    "ConnectionStrings__DefaultConnection": "",
+    "IrrigationAccess__SigningKey": ""
   }
 }

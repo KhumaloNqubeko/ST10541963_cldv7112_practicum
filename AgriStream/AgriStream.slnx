@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="AgriStream.csproj" />
   <Project Path="../AgriStream.Telemetry/AgriStream.Telemetry.csproj" />
+  <Project Path="../AgriStream.Irrigation/AgriStream.Irrigation.csproj" />
   <Project Path="../AgriStream.Functions/AgriStream.Functions.csproj" />
   <Project Path="../AgriStream.Checks/AgriStream.Checks.csproj" />
   <Project Path="../AgriStream.Functions.Checks/AgriStream.Functions.Checks.csproj" />

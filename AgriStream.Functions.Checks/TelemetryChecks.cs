@@ -98,14 +98,14 @@ internal static class TelemetryChecks
         public override IDictionary<object, object> Items { get; set; } = new Dictionary<object,object>();
         public override IInvocationFeatures Features => null!;
     }
-    private sealed class TestRequest() : HttpRequestData(new TestContext())
+    internal sealed class TestRequest(string method="GET",string? json=null) : HttpRequestData(new TestContext())
     {
-        public override Stream Body => Stream.Null;
+        public override Stream Body {get;} = json is null?Stream.Null:new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
         public override HttpHeadersCollection Headers { get; } = new();
         public override IReadOnlyCollection<IHttpCookie> Cookies => [];
         public override Uri Url => new("https://localhost/api/fields/field-a/telemetry/latest");
         public override IEnumerable<ClaimsIdentity> Identities => [];
-        public override string Method => "GET";
+        public override string Method => method;
         public override HttpResponseData CreateResponse() => new TestResponse(FunctionContext);
     }
     private sealed class TestResponse(FunctionContext context) : HttpResponseData(context)

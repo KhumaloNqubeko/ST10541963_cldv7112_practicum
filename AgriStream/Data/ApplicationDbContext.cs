@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using AgriStream.Models;
+using AgriStream.Irrigation;
 namespace AgriStream.Data;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<IdentityUser>(options)
 {
     public DbSet<Farm> Farms => Set<Farm>();
+    public DbSet<IrrigationDevice> IrrigationDevices=>Set<IrrigationDevice>();
+    public DbSet<IrrigationCommandRecord> IrrigationCommands=>Set<IrrigationCommandRecord>();
     public DbSet<FarmAgronomist> FarmAgronomists => Set<FarmAgronomist>();
     public DbSet<Sensor> Sensors => Set<Sensor>();
     public DbSet<SensorReading> SensorReadings => Set<SensorReading>();
@@ -14,6 +17,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Recommendation> Recommendations => Set<Recommendation>();
     protected override void OnModelCreating(ModelBuilder b) {
         base.OnModelCreating(b);
+        IrrigationModel.Configure(b);
+        b.Entity<IrrigationDevice>().HasOne<Farm>().WithMany().HasForeignKey(d=>d.FarmId).OnDelete(DeleteBehavior.Restrict);
         b.Entity<Farm>().HasOne(f => f.Farmer).WithMany().HasForeignKey(f => f.FarmerId).OnDelete(DeleteBehavior.Restrict);
         b.Entity<FarmAgronomist>().HasKey(a => new { a.FarmId, a.AgronomistId });
         b.Entity<FarmAgronomist>().HasOne(a => a.Farm).WithMany(f => f.Agronomists).HasForeignKey(a => a.FarmId).OnDelete(DeleteBehavior.Restrict);

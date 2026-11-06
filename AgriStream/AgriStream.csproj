@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../AgriStream.Telemetry/AgriStream.Telemetry.csproj" />
+    <ProjectReference Include="../AgriStream.Irrigation/AgriStream.Irrigation.csproj" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.12" />

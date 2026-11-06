@@ -10,6 +10,9 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddHttpClient<AgriStream.Services.FieldTelemetryClient>(http => http.Timeout = TimeSpan.FromSeconds(5))
     .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AllowAutoRedirect = false });
 builder.Services.AddScoped<AgriStream.Services.FarmerTelemetryDashboard>();
+builder.Services.AddScoped<AgriStream.Services.IrrigationDashboard>();
+builder.Services.AddHttpClient<AgriStream.Services.IrrigationCommandClient>(http=>http.Timeout=TimeSpan.FromSeconds(15))
+    .ConfigurePrimaryHttpMessageHandler(()=>new HttpClientHandler{AllowAutoRedirect=false});
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Configure ConnectionStrings:DefaultConnection for Azure SQL."), sql => sql.EnableRetryOnFailure()));

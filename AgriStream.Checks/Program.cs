@@ -48,6 +48,7 @@ Check(!image.GetProperties().Any(p => p.ClrType == typeof(byte[])), "Drone image
 Check(db.Model.FindEntityType(typeof(FarmAgronomist))!.FindPrimaryKey()!.Properties.Count == 2, "Assignments use a composite key");
 Console.WriteLine("All farm-access, SQL translation and model checks passed.");
 await TelemetryMvcChecks.RunAsync();
+await IrrigationMvcChecks.RunAsync();
 
 static ClaimsPrincipal User(string id, string role) => new(new ClaimsIdentity([
     new Claim(ClaimTypes.NameIdentifier, id), new Claim(ClaimTypes.Role, role)

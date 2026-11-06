@@ -1,0 +1,9 @@
+@model AgriStream.Services.IrrigationResult
+@{ ViewData["Title"]="Irrigation command"; }
+<h1>Irrigation command</h1><p role="status">@Model.Message</p><p>Command ID: <code>@Model.CommandId</code></p>
+@if(Model.RetryToken is not null){
+<form asp-action="Trigger" method="post" onsubmit="this.querySelector('button').disabled=true">
+<input type="hidden" name="submission" value="@Model.RetryToken"/><button class="btn btn-primary">Retry same command</button>
+</form>
+}
+<p class="mt-3"><a asp-controller="Dashboard" asp-action="Index">Return to dashboard</a></p>

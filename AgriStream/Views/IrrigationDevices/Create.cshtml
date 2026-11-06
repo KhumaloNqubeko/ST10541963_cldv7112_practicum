@@ -1,0 +1,11 @@
+@model CreateIrrigationDevice
+@{ViewData["Title"]="Register irrigation device";}
+<h1>Register irrigation device</h1><p>Associate an irrigation controller with an existing farm and mapped field.</p>
+<form asp-action="Create" method="post" class="form-panel">
+<div asp-validation-summary="All" class="text-danger"></div>
+<label asp-for="DeviceId"></label><input asp-for="DeviceId" class="form-control mb-3"/>
+<label asp-for="Name"></label><input asp-for="Name" class="form-control mb-3"/>
+<label asp-for="FarmId"></label><select asp-for="FarmId" asp-items="Model.Farms" class="form-select mb-3"></select>
+<label asp-for="FieldId"></label><input asp-for="FieldId" class="form-control mb-3"/>
+<button class="btn btn-primary">Register device</button>
+</form>

@@ -5,6 +5,7 @@
 @if (User.IsInRole("Admin")) {
     <a class="btn btn-outline-primary" asp-controller="Admin" asp-action="CreateUser">Create account</a>
     <a class="btn btn-primary" asp-controller="Farms" asp-action="Create">Add farm</a>
+    @if(Model.IrrigationEnabled){<a class="btn btn-outline-primary" asp-controller="IrrigationDevices" asp-action="Create">Register irrigation device</a>}
 }
 @if (User.IsInRole("Agronomist")) { <a class="btn btn-primary" asp-controller="Recommendations" asp-action="Create">Share recommendation</a> }
 </div></div>
@@ -45,6 +46,18 @@ else { <div class="table-responsive"><table class="table"><thead><tr><th>Farm / 
 </tbody></table></div> }
 }
 </section>
+@if(Model.IrrigationEnabled && User.IsInRole("Farmer")){
+<section class="monitor-panel"><h2>Irrigation controls</h2><p class="text-muted">Commands request a device state. Physical activation is not connected.</p>
+@if(Model.IrrigationDevices.Count==0){<p>No irrigation controllers are registered for this field yet.</p>}
+@foreach(var card in Model.IrrigationDevices){
+<article class="record"><strong>@card.Device.Name · @card.Device.DeviceId</strong><p>@card.Device.FieldId · Status: @card.Device.OperationalStatus</p>
+@if(card.Device.LastCommandId is not null){<p>Last command: <code>@card.Device.LastCommandId</code> · @card.Device.LastAction · @card.Device.LastProcessedAt?.UtcDateTime.ToString("dd MMM yyyy HH:mm:ss") UTC</p><p>@card.Device.LastOutcome</p>}
+@if(card.Device.IsEnabled){<div class="d-flex gap-2">
+<form asp-controller="Irrigation" asp-action="Trigger" method="post" onsubmit="this.querySelector('button').disabled=true"><input type="hidden" name="submission" value="@card.StartToken"/><button class="btn btn-primary">Trigger Irrigation</button></form>
+<form asp-controller="Irrigation" asp-action="Trigger" method="post" onsubmit="this.querySelector('button').disabled=true"><input type="hidden" name="submission" value="@card.StopToken"/><button class="btn btn-outline-primary">Request stop</button></form>
+</div>}else{<p>Device controls are disabled.</p>}
+</article>}
+</section>}
 <div class="monitor-grid"><section class="monitor-panel"><h2>Open alerts</h2>
 @if (Model.Alerts.Count == 0) { <p class="empty-copy">No open alerts.</p> }
 @foreach (var a in Model.Alerts) { <article class="record"><span class="status">@a.Severity · @a.Farm.Name</span><p>@a.Message</p><small>@a.CreatedAt.UtcDateTime.ToString("dd MMM yyyy HH:mm") UTC</small></article> }
